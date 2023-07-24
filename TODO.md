@@ -1,5 +1,6 @@
 # TODO
 
+- write a CSV maker
 - add a LinkedIn parser
 - add a Indeed parser
 - add a Glassdoor parser
