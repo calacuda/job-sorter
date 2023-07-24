@@ -20,7 +20,7 @@ Generate a CSV file with two columns; `text` and `alert`. The `text` column stor
 
 ## TODOs
 
-For a more detailed TODO list see: [TODO.md](todo.md).
+For a more detailed TODO list see: [todo.md](todo.md).
 
 - [ ] write a csv maker
 - [ ] add a LinkedIn parser
