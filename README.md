@@ -11,7 +11,7 @@ Job Sorter will sort jobs based on their description using naive bayesian classi
 
 ## Usage
 
-1. [train a model](#Training a Model)
+1. [train a model](#training-a-model)
 2. run the model with a link to the data. i.e: `gig-parse --model /PATH/TO/MODEL upwork 'https://www.upwork.com/ab/feed/jobs/rss?q=...`
 
 ## Training a Model
