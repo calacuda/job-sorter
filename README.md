@@ -22,10 +22,10 @@ Generate a CSV file with two columns; `text` and `alert`. The `text` column stor
 
 For a more detailed TODO list see: [todo.md](todo.md).
 
-- [x] add an RSS feed server that serves recent job listings
-- [x] catagorize gigs by date
-- [ ] add discord messaging
-- [ ] write a csv maker
-- [ ] add a LinkedIn parser
-- [ ] add a Indeed parser
-- [ ] add a Glassdoor parser
+- 1. [x] add an RSS feed server that serves recent job listings
+- 2. [x] catagorize gigs by date
+- 3. [ ] add discord messaging
+- 4. [ ] write a csv maker
+- 5. [ ] add a LinkedIn parser
+- 6. [ ] add a Indeed parser
+- 7. [ ] add a Glassdoor parser
