@@ -3,9 +3,10 @@ from os import listdir
 from pathlib import Path
 from plyer import notification
 import json
+import argparse
 from .train import entry_point as train
 from .upwork import entry_point as upwork 
-import argparse
+from .server import entry_point as server_start
 
 
 def get_args():
@@ -24,6 +25,9 @@ def get_args():
     train_parser = subparsers.add_parser('train')
     train_parser.add_argument("csv", help="the csv to train based on. should have a column called 'text', containing the text description of the gig, and one called 'alert', deffines wether the user should be alerted (1 for alert, 0 for not alert)")
     train_parser.set_defaults(func=train)
+
+    # server = subparsers.add_parser('server')
+    # server.set_defaults(func=server_start)
 
     return parser.parse_args()
 
