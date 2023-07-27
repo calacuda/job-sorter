@@ -6,9 +6,8 @@ from .utils import *
 
 N_GIGS = 100
 HIST_LEN = N_GIGS * 3
-# DATA_DIR = join(DATA_DIR, "/upwork/")
-# stores hashes of the gigs that have been proccessed.
-# this ensures that the user only get promted abhout the gig once.
+SOURCE = "upwork"
+GIG_DIR = join(GIGS_DIR, SOURCE)
 
 
 def make_gig(gig) -> Gig:
@@ -64,7 +63,7 @@ def entry_point(args):
     print(f"found {len(good_gigs)} gigs to look into.")
     
     if good_gigs:
-        notify_user(good_gigs)
+        notify_user(SOURCE, good_gigs)
 
 
 if __name__ == "__main__":

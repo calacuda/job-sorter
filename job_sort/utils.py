@@ -7,9 +7,11 @@ from plyer import notification
 import pickle
 
 
-DATA_DIR = expanduser("~/.local/share/gig-parser/")
+DATA_DIR = expanduser("~/.local/share/job-sort/")
 GIGS_DIR = join(DATA_DIR, "gigs")
+# stores hashes of the gigs that have been proccessed. this ensures that the user only get notified once per gigs.
 HIST_FILE = join(DATA_DIR, "job-history.lst")
+# aids in testing & helps see if any wantted gigs fall through the cracks.
 SPAM_FILE = join(DATA_DIR, "spam.json")
 
 
@@ -41,8 +43,8 @@ class Gig:
             return False
 
 
-def make_path(date):
-    path = GIGS_DIR
+def make_path(source: str, date):
+    path = join(GIGS_DIR, source)
 
     for d in [date.year, date.month, date.day]:
         path = join(path, str(d))
@@ -51,11 +53,11 @@ def make_path(date):
     return path
 
 
-def get_dir():
+def get_dir(source: str):
     """gets the next dir to use to store gigs"""
     date = datetime.now()
 
-    path = make_path(date)
+    path = make_path(source, date)
 
     # print(path)
 
@@ -92,12 +94,12 @@ def ensure_files(paths: [str]):
                 f.write(contents)
 
 
-def notify_user(good_gigs: [Gig]):
+def notify_user(source: str, good_gigs: [Gig]):
     """sends a notification to the user with information about the good gigs"""
     # make a new diretory in gigs_dir.
     # md_dirs = listdir(GIG_DIR)
     # md_dirs = md_dirs if md_dirs else ["0"]
-    next_dir = get_dir()  # max(int(d) for d in md_dirs) + 1
+    next_dir = get_dir(source)  # max(int(d) for d in md_dirs) + 1
     # p = join(GIG_DIR, str(next_dir))
     # path = Path(p)
     # path.mkdir(parents=True, exist_ok=False)

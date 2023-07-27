@@ -22,5 +22,5 @@ def entry_point(args):
     model.fit(x_train_count, y_train)
 
     # TODO: get model_name from terminal args
-    model_name = args.model
+    model_name = args.model if args.model.endswith(".pkl") else args.model + ".pkl"
     pickle.dump((model, v), open(model_name, 'wb'))

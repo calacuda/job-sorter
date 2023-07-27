@@ -31,7 +31,7 @@ def recurse_dirs(root) -> [str]:
     return dirs
 
 
-def get_recent_gigs() -> [str]:
+def get_recent_gigs(source: str) -> [str]:
     # days = recurse_dirs(GIGS_DIR)
     # days.sort()
     # print("days: ", days)
@@ -39,29 +39,32 @@ def get_recent_gigs() -> [str]:
     yesterday = today - timedelta(days = 1)
 
     try:
-        gigs = [(today, f) for f in listdir(make_path(today))]
+        gigs = [(today, f) for f in listdir(make_path(source, today))]
     except FileNotFoundError:
         gigs = []
 
     try:
-        gigs += [(yesterday, f) for f in listdir(make_path(yesterday))]
+        gigs += [(yesterday, f) for f in listdir(make_path(source, yesterday))]
     except FileNotFoundError:
         pass
 
     return gigs
 
 
-@app.route('/rss')
+@app.route('/upwork/rss')
 def rss_feed():
+    source = "upwork"
+
     fg = FeedGenerator()
-    fg.title('recent job listings')
-    fg.description('job listings from Upwork and the like')
-    fg.link(href='http://127.0.0.1')
+    fg.title('Recent Upwork Job Listings')
+    fg.description('job listings from Upwork.com')
+    fg.link(href='http://127.0.0.1/upwork/rss')
     # TODO: make N_ENTRIES a GET/POST param
-    entries = get_recent_gigs()[0: N_ENTRIES]
+    entries = get_recent_gigs(source)[0: N_ENTRIES]
+    print("n entries", len(entries))
 
     for date, path in entries: # get_news() returns a list of articles from somewhere
-        path = join(make_path(date), path)
+        path = join(make_path(source, date), path)
         contents = open(path, "r").readlines()
         fe = fg.add_entry()
         fe.title(path.split("/")[-1][:-3])
@@ -80,5 +83,5 @@ def rss_feed():
     return response
 
 
-def entry_point():
+def entry_point(args):
     app.run()
