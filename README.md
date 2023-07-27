@@ -24,7 +24,7 @@ For a more detailed TODO list see: [todo.md](todo.md).
 
 - [x] **1.** add an RSS feed server that serves recent job listings
 - [x] **2.** catagorize gigs by date
-- [ ] **3.** add discord messaging
+- [x] **3.** add discord messaging
 - [ ] **4.** write a csv maker
 - [ ] **5.** add a LinkedIn parser
 - [ ] **6.** add a Indeed parser

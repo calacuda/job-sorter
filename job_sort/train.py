@@ -9,7 +9,7 @@ from os import getcwd
 from os.path import join
 
 
-def entry_point(args):
+def entry_point(args, _):
     # TODO: get csv_fname from terminal args
     # csv_fname = args.csv
     csv_fname = join(getcwd(), args.csv) if args.csv[0] not in ["/", "~"] else args.csv

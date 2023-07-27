@@ -83,5 +83,5 @@ def rss_feed():
     return response
 
 
-def entry_point(args):
+def entry_point(args, configs):
     app.run()

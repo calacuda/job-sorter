@@ -5,14 +5,20 @@ from datetime import datetime
 from hashlib import sha256
 from plyer import notification
 import pickle
+from .discord_bot import *
+# from .upwork import update_upwork
+import tomllib
+import dbus
 
 
 DATA_DIR = expanduser("~/.local/share/job-sort/")
+CONF_DIR = expanduser("~/.config/job-sort/")
 GIGS_DIR = join(DATA_DIR, "gigs")
 # stores hashes of the gigs that have been proccessed. this ensures that the user only get notified once per gigs.
 HIST_FILE = join(DATA_DIR, "job-history.lst")
 # aids in testing & helps see if any wantted gigs fall through the cracks.
 SPAM_FILE = join(DATA_DIR, "spam.json")
+CONF_FILE = join(CONF_DIR, "job-sort.conf")
 
 
 class Gig:
@@ -82,19 +88,21 @@ def ensure_files(paths: [str]):
     # if not exists(GIG_DIR):
     #     path = Path(GIG_DIR)
     #     path.mkdir(parents=True, exist_ok=True)
+    paths.append(DATA_DIR)
+    paths.append(CONF_DIR)
 
     for path in paths:
         p = Path(path)
         p.mkdir(parents=True, exist_ok=True)
     
-    for path, contents in [(SPAM_FILE, "[]"), (HIST_FILE, "")]: 
+    for path, contents in [(SPAM_FILE, "[]"), (HIST_FILE, ""), (CONF_FILE, "")]: 
         if not isfile(path):
             with open(path, "w") as f:
                 print(path, contents)
                 f.write(contents)
 
 
-def notify_user(source: str, good_gigs: [Gig]):
+def notify_user(configs, source: str, good_gigs: [Gig]):
     """sends a notification to the user with information about the good gigs"""
     # make a new diretory in gigs_dir.
     # md_dirs = listdir(GIG_DIR)
@@ -112,7 +120,15 @@ def notify_user(source: str, good_gigs: [Gig]):
             f.write("\n")
 
     # send system notif with directory name.
-    notification.notify(title = 'New upwork gigs', message = f"Path: {next_dir}", app_icon = '', timeout = 15)
+    try:
+        notification.notify(title = f'New {source} gigs', message = f"Path: {next_dir}", app_icon = '', timeout = 15)
+    except dbus.exceptions.DBusException:
+        pass
 
-    # TODO: send discord message with path and each gig (as markdown)
+    send_gigs(configs, source, good_gigs)
 
+
+def get_configs():
+    """loads the config file"""
+    with open(CONF_FILE, "rb") as f:
+        return tomllib.load(f)

@@ -1,4 +1,5 @@
 from feedparser import parse, parsers
+from os.path import expanduser
 import json
 import pickle
 from .utils import *
@@ -45,26 +46,27 @@ def record_gigs(good_gigs: [Gig], bad_gigs: [Gig]):
         spam.write(json.dumps(spam_messages)) 
 
 
-def entry_point(args):
-    """runs the cli"""
-    ensure_files([DATA_DIR])
-    # args = get_args()
-    url = args.url
-    model = args.model
+def update_upwork(configs) -> [Gig]:
+    ensure_files([GIGS_DIR])
+
+    url = configs["upwork"]["url"]
+    model = expanduser(configs["model"]["upwork"])
     gigs = get_new_gigs(url)
     print(f"sorting {len(gigs)} new gigs")
     
     if not gigs:
-        return
+        return []
 
     good_gigs, bad_gigs = filter_gigs(gigs, model)
     print(f"{len(good_gigs)} good_gigs | {len(bad_gigs)} bad_gigs")
     record_gigs(good_gigs, bad_gigs)
     print(f"found {len(good_gigs)} gigs to look into.")
-    
+    return good_gigs
+
+
+def entry_point(args, configs):
+    """runs the cli"""
+    good_gigs = update_upwork(configs)
+
     if good_gigs:
-        notify_user(SOURCE, good_gigs)
-
-
-if __name__ == "__main__":
-    entry_point()
+        notify_user(configs, SOURCE, good_gigs)

@@ -7,6 +7,7 @@ import argparse
 from .train import entry_point as train
 from .upwork import entry_point as upwork 
 from .server import entry_point as server_start
+from .utils import get_configs
 
 
 def get_args():
@@ -19,8 +20,8 @@ def get_args():
     subparsers = parser.add_subparsers(required=True)
     
     upw_parser = subparsers.add_parser('upwork')
-    upw_parser.add_argument("url", help="the url to request RSS feed data from.")
-    upw_parser.add_argument("-m", "--model", dest="model", required=True, help="the model to use to classify jobs.")
+    # upw_parser.add_argument("url", help="the url to request RSS feed data from.")
+    # upw_parser.add_argument("-m", "--model", dest="model", required=True, help="the model to use to classify jobs.")
     upw_parser.set_defaults(func=upwork)
 
     train_parser = subparsers.add_parser('train')
@@ -41,7 +42,9 @@ def run_cli():
     args = get_args()
     # print(args)
     # print("=" * 80)
-    args.func(args)
+    configs = get_configs()
+
+    args.func(args, configs)
     
 
 
