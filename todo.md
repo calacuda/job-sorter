@@ -2,16 +2,17 @@
 
 - [x] separate the notification and prediction functions to a "utils.py" file
 - [x] add an RSS feed server that serves recent job listings
-- [x] catagorize gigs by date
-- [x] catagorize gigs by date **& source** (in fomrat "GIG_DIR/{source}/{year}/{month}/{day}/gig", "source" would be what job board the gig was from. i.e upwork, linkedin, indeed, or glassdoor.)
+- [x] categorize gigs by date
+- [x] categorize gigs by date **& source** (in format "GIG_DIR/{source}/{year}/{month}/{day}/gig", "source" would be what job board the gig was from. i.e upwork, linkedin, indeed, or glassdoor.)
 - [x] make "job-server" a sub-command for "job-parse"
 - [ ] add discord messaging notifs
   - [ ] add toml config file with:
-    - discord settings (message target (channel and server or user). wether to message server, user, or both.)
+    - discord settings (message target (channel and server or user). whether to message server, user, or both.)
     - locations for the models for Upwork, LinkedIn, Indeed, & Glassdoor
     - api links to pull from for Upwork, LinkedIn, Indeed, & Glassdoor
   - [ ] add command line arg to NOT notify via discord
   - [ ] add command line arg to NOT notify via desktop notifs
+  - [ ] add command line arg to run both the rss server and discord bot simultaneously.
 - [ ] add automatic deletion of gigs older then 4 weeks
 - [ ] write a CSV maker
 - [ ] add cmd-line arg to pull jobs from all sources at one time
